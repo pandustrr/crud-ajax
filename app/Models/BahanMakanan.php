@@ -17,4 +17,8 @@ class BahanMakanan extends Model
         'stok',
         'deskripsi',
     ];
+
+    protected $casts = [
+        'stok' => 'integer'
+    ];
 }

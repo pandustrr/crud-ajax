@@ -20,10 +20,10 @@
                 <td class="px-6 py-4 whitespace-nowrap">{{ $bahan->stok }}</td>
                 <td class="px-6 py-4">{{ Str::limit($bahan->deskripsi, 50) }}</td>
                 <td class="px-6 py-4 whitespace-nowrap">
-                    <button onclick="openModal('edit', {{ $bahan->id }})"
-                        class="text-blue-600 hover:text-blue-900 mr-3">Edit</button>
-                    <button onclick="deleteData({{ $bahan->id }})"
-                        class="text-red-600 hover:text-red-900">Hapus</button>
+                    <a href="{{ route('bahan-makanan.edit', $bahan->id) }}"
+                        class="text-blue-600 hover:text-blue-900 mr-3">Edit</a>
+                    <a href="{{ route('bahan-makanan.hapus', $bahan->id) }}" onclick="confirm('Yakin mau hapus?')"
+                        class="text-red-600 hover:text-red-900">Hapus</a>
                 </td>
             </tr>
         @endforeach
@@ -32,6 +32,6 @@
 
 @if ($bahanMakanans->hasPages())
     <div class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
-        {{ $bahanMakanans->links() }}
+        {{ $bahanMakanans->withQueryString()->links() }}
     </div>
 @endif

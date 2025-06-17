@@ -7,12 +7,7 @@ use App\Models\BahanMakanan;
 
 class BahanMakananController extends Controller
 {
-    public function index()
-    {
-        return view('bahan_makanan.index');
-    }
-
-    public function data(Request $request)
+    public function index(Request $request)
     {
         $search = $request->search;
         $perPage = $request->perPage ?? 5;
@@ -22,7 +17,13 @@ class BahanMakananController extends Controller
                 ->orWhere('satuan', 'like', '%' . $search . '%');
         })->paginate($perPage);
 
-        return view('bahan_makanan.table', compact('bahanMakanans'))->render();
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => view('bahan_makanan.table', compact('bahanMakanans'))->render()
+            ]);
+        }
+
+        return view('bahan_makanan.index', compact('bahanMakanans'));
     }
 
     public function create()
@@ -41,10 +42,8 @@ class BahanMakananController extends Controller
 
         BahanMakanan::create($request->all());
 
-        return response()->json([
-            'message' => 'Data berhasil disimpan',
-            'redirect' => route('bahan-makanan.index')
-        ]);
+        return redirect()->route('bahan-makanan.index')
+            ->with('success', 'Data berhasil disimpan');
     }
 
     public function edit(BahanMakanan $bahanMakanan)
@@ -63,15 +62,16 @@ class BahanMakananController extends Controller
 
         $bahanMakanan->update($request->all());
 
-        return response()->json([
-            'message' => 'Data berhasil diperbarui',
-            'redirect' => route('bahan-makanan.index')
-        ]);
+        return redirect()->route('bahan-makanan.index')
+            ->with('success', 'Data berhasil diperbarui');
     }
 
-    public function destroy(BahanMakanan $bahanMakanan)
+    public function destroy(BahanMakanan $bahanMakanan, $id)
     {
+        $bahanMakanan = BahanMakanan::find($id);
         $bahanMakanan->delete();
-        return response()->json(['message' => 'Data berhasil dihapus']);
+
+        return redirect()->route('bahan-makanan.index')
+            ->with('success', 'Data berhasil diperbarui dihapus');
     }
 }

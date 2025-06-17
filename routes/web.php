@@ -8,4 +8,4 @@ Route::get('/', function () {
 });
 
 Route::resource('bahan-makanan', BahanMakananController::class);
-Route::get('/bahan/data', [BahanMakananController::class, 'data'])->name('bahan-makanan.data');
+Route::get('bahan-makanan/hapus/{id}', [BahanMakananController::class, 'destroy'])->name('bahan-makanan.hapus');
