@@ -66,7 +66,6 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Load data pertama kali
             if (!document.getElementById('dataContainer').innerHTML.trim()) {
                 loadData();
             }
@@ -75,7 +74,6 @@
                 loadData(1);
             });
 
-            // Debounce untuk search
             let searchTimeout;
             document.getElementById('search').addEventListener('input', function() {
                 clearTimeout(searchTimeout);
